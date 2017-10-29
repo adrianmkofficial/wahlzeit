@@ -104,6 +104,11 @@ public class Photo extends DataObject {
 	 *
 	 */
 	protected PhotoStatus status = PhotoStatus.VISIBLE;
+
+	/**
+	 *
+	 */
+	protected Location location = null;
 	
 	/**
 	 *
@@ -148,6 +153,14 @@ public class Photo extends DataObject {
 		incWriteCount();
 	}
 
+	/**
+	 * @methodtype constructor
+	 */
+	public Photo(PhotoId myId, Location l) {
+		id = myId;
+		this.location = l;
+		incWriteCount();
+	}
 	/**
 	 * @methodtype get
 	 */
@@ -272,6 +285,19 @@ public class Photo extends DataObject {
 		return height;
 	}
 
+	/**
+	 * @methodtype get
+	 */
+	public Location getLocation() {
+		return location;
+	}
+
+	/**
+	 * @methodtype set
+	 */
+	public void setLocation(Location location) {
+		this.location = location;
+	}
 	/**
 	 * @methodtype get
 	 */
