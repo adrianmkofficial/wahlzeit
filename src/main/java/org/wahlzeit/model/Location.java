@@ -9,7 +9,7 @@ public class Location {
     /**
      *
      */
-    private Coordinate coordinate;
+    public Coordinate coordinate;
 
     /**
      * @methodtype constructor

@@ -108,7 +108,7 @@ public class Photo extends DataObject {
 	/**
 	 *
 	 */
-	protected Location location = null;
+	public Location location = null;
 	
 	/**
 	 *
