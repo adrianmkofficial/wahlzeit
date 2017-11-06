@@ -5,6 +5,9 @@ package org.wahlzeit.model;
  */
 public class Coordinate {
 
+    // Delta is a constant used in floating point operations.
+    private static final double DELTA = 0.000001;
+
     /**
      *
      */
@@ -16,9 +19,7 @@ public class Coordinate {
      * @methodtype constructor
      */
     public Coordinate() {
-        this.x = 0.0;
-        this.y = 0.0;
-        this.z = 0.0;
+
     }
 
     /**
@@ -80,7 +81,12 @@ public class Coordinate {
         if (c == null) {
             throw new IllegalArgumentException("Coordinate can not be null.");
         }
-        return Math.sqrt(Math.pow(this.getX() - c.getX() , 2) + Math.pow(this.getY() - c.getY(), 2) + Math.pow(this.getZ() - c.getZ(), 2));
+        double result = Math.sqrt(Math.pow(this.getX() - c.getX() , 2) + Math.pow(this.getY() - c.getY(), 2) + Math.pow(this.getZ() - c.getZ(), 2));
+        // check for overflows of result to infinity
+        if (Double.isInfinite(result)){
+            throw new ArithmeticException("Overflow");
+        }
+        return result;
     }
 
     /**
@@ -93,7 +99,9 @@ public class Coordinate {
             return false;
         }
         // check individual coordinates for equality
-        if ((this.getX() == c.getX()) && (this.getY() == c.getY()) && (this.getZ() == c.getZ())) {
+        // individual doubles of coordinates are being substracted and then compared to a fixed variable
+        // to avoid floating point errors during calculations
+        if ((Math.abs(this.getX() - c.getX()) < DELTA) && (Math.abs(this.getY() - c.getY()) < DELTA) && (Math.abs(this.getZ() - c.getZ()) < DELTA)){
             return true;
         }
         // in any other case coordinate is deemed not equal
