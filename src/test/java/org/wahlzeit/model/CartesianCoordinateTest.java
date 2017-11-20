@@ -11,12 +11,12 @@ import java.util.Map;
 import static org.junit.Assert.*;
 
 /**
- * Test cases for the Coordinate class.
+ * Test cases for the CartesianCoordinate class.
  */
-public class CoordinateTest {
-    Coordinate c_parametrized;
-    Coordinate c_default;
-    Coordinate c_negative;
+public class CartesianCoordinateTest {
+    CartesianCoordinate c_parametrized;
+    CartesianCoordinate c_default;
+    CartesianCoordinate c_negative;
     double x;
     double y;
     double z;
@@ -26,14 +26,14 @@ public class CoordinateTest {
         x = 1.25;
         y = 3.75;
         z = 8.0;
-        c_default = new Coordinate();
-        c_parametrized = new Coordinate(x,y,z);
-        c_negative = new Coordinate(-x,-y,-z);
+        c_default = new CartesianCoordinate(0,0,0);
+        c_parametrized = new CartesianCoordinate(x,y,z);
+        c_negative = new CartesianCoordinate(-x,-y,-z);
 
     }
 
     @Test
-    public void testConstructor_ParametrizedCoords() {
+    public void testConstructor_ParametrizedCartesianCoordinate() {
         assertEquals(x, c_parametrized.getX(), 0.0001);
         assertEquals(y, c_parametrized.getY(), 0.0001);
         assertEquals(z, c_parametrized.getZ(), 0.0001);
@@ -47,7 +47,7 @@ public class CoordinateTest {
     }
 
     @Test
-    public void testConstructor_NegativeCoords() {
+    public void testConstructor_NegativeCartesianCoordinate() {
         assertEquals(-x, c_negative.getX(), 0.0001);
         assertEquals(-y, c_negative.getY(), 0.0001);
         assertEquals(-z, c_negative.getZ(), 0.0001);

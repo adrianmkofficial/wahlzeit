@@ -14,13 +14,6 @@ public class Location {
     /**
      * @methodtype constructor
      */
-    public Location() {
-        this.coordinate = new Coordinate();
-    }
-
-    /**
-     * @methodtype constructor
-     */
     public Location(Coordinate coordinate) {
         if (coordinate == null) {
             throw new IllegalArgumentException("Coordinate can not be null.");
