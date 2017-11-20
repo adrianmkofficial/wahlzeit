@@ -17,6 +17,7 @@ public class OfyService {
 	 * Register all entities at startup
 	 */
 	static {
+		factory().register(Photo.class);
 		factory().register(SodaPhoto.class);
 		factory().register(Globals.class);
 		factory().register(Tag.class);

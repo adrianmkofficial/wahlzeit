@@ -1,8 +1,10 @@
 package org.wahlzeit.model;
 
-import com.googlecode.objectify.annotation.Entity;
-
-@Entity
+import com.googlecode.objectify.annotation.Subclass;
+/**
+ * A SodaPhoto represents a user-provided (uploaded) photo of a soda / soft drink.
+ */
+@Subclass
 public class SodaPhoto extends Photo {
 
     /**
@@ -27,7 +29,6 @@ public class SodaPhoto extends Photo {
      */
     protected String country;
 
-
     /**
      * This is the standard constructor of the SodaPhoto class.
      */
@@ -45,6 +46,21 @@ public class SodaPhoto extends Photo {
     }
 
     /**
+     * Constructor of the SodaPhoto class.
+     *
+     * @param sodaName
+     * @param manufacturer
+     * @param serving_size_ml
+     * @param country
+     */
+    public SodaPhoto(PhotoId photoId, String sodaName, String manufacturer, Double serving_size_ml, String country)
+    {
+        this.id = photoId;
+        this.sodaName = sodaName;
+        this.manufacturer = manufacturer;
+        this.serving_size_ml = serving_size_ml;
+        this.country = country;
+    }    /**
      * Gets the name of the Soda in the photo.
      *
      * @return the name as string
