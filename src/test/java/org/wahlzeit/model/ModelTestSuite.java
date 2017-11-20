@@ -16,6 +16,9 @@ import org.wahlzeit.model.persistence.PersistenceTestSuite;
         GuestTest.class,
         LocationTest.class,
         PhotoFilterTest.class,
+        SodaPhotoTest.class,
+        SodaPhotoManagerTest.class,
+        SodaPhotoFactoryTest.class,
         TagsTest.class,
         UserStatusTest.class,
         ValueTest.class

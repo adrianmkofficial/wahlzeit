@@ -72,7 +72,7 @@ public class PhotoManager extends ObjectManager {
 	/**
 	 *
 	 */
-	public static final PhotoManager getInstance() {
+	public static PhotoManager getInstance() {
 		return instance;
 	}
 
@@ -93,7 +93,7 @@ public class PhotoManager extends ObjectManager {
 	/**
 	 *
 	 */
-	public final Photo getPhoto(PhotoId id) {
+	public Photo getPhoto(PhotoId id) {
 		return instance.getPhotoFromId(id);
 	}
 
