@@ -29,7 +29,7 @@ public class OfyService {
 	static {
 		factory().register(Photo.class);
 		factory().register(SodaPhoto.class);
-		factory().register(Coordinate.class);
+		//factory().register(Coordinate.class);
 		factory().register(Globals.class);
 		factory().register(Tag.class);
 		factory().register(User.class);
