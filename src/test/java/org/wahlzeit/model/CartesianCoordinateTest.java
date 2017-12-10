@@ -103,4 +103,12 @@ public class CartesianCoordinateTest {
         assertFalse(c_parametrized.isEqual(c_default));
         assertFalse(c_parametrized.isEqual(c_negative));
     }
+
+    @Test
+    public void testConversion() {
+        CartesianCoordinate c = new CartesianCoordinate(5433, -291.4, 3315);
+        assertEquals(c, c.asSphericCoordinate().asCartesianCoordinate());
+        assertTrue(c.equals(c.asSphericCoordinate().asCartesianCoordinate()));
+        assertEquals(c.getDistance(c.asSphericCoordinate().asCartesianCoordinate()),0,0.01);
+    }
 }

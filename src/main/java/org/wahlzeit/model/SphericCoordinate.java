@@ -1,6 +1,29 @@
+/*
+ * Copyright (c) 2017 Adrian MK Fürst
+ *
+ * This file is part of the Wahlzeit photo rating application.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public
+ * License along with this program. If not, see
+ * <http://www.gnu.org/licenses/>.
+ */
+
 package org.wahlzeit.model;
 
-public class SphericCoordinate implements Coordinate {
+/**
+ * A class representing a Coordinate in the Spheric system.
+ */
+public class SphericCoordinate extends AbstractCoordinate {
 
     private static final double LONGITUDE_MIN = -180;
     private static final double LONGITUDE_MAX = 180;
@@ -11,7 +34,6 @@ public class SphericCoordinate implements Coordinate {
     private double latitude;
     private double longitude;
     private double radius;
-
 
     public SphericCoordinate(double latitude, double longitude) {
         this(latitude, longitude, EARTH_RADIUS_KM);
@@ -34,63 +56,15 @@ public class SphericCoordinate implements Coordinate {
 
     @Override
     public CartesianCoordinate asCartesianCoordinate() {
-        double x = radius * Math.sin(Math.toRadians(longitude)) * Math.cos(Math.toRadians(latitude));
-        double y = radius * Math.sin(Math.toRadians(latitude)) * Math.sin(Math.toRadians(longitude));
-        double z = radius * Math.cos(Math.toRadians(longitude));
+        double x = radius * Math.sin(Math.toRadians(latitude)) * Math.cos(Math.toRadians(longitude));
+        double y = radius * Math.sin(Math.toRadians(longitude)) * Math.sin(Math.toRadians(latitude));
+        double z = radius * Math.cos(Math.toRadians(latitude));
         return new CartesianCoordinate(x, y, z);
-    }
-
-    @Override
-    public double getCartesianDistance(final Coordinate c) {
-        return this.asCartesianCoordinate().getCartesianDistance(c);
     }
 
     @Override
     public SphericCoordinate asSphericCoordinate() {
         return this;
-    }
-
-    @Override
-    public double getSphericDistance(final Coordinate c) {
-        SphericCoordinate tmp_coord = c.asSphericCoordinate();
-        double latDistance = Math.toRadians(tmp_coord.getLatitude() - this.getLatitude());
-        double lonDistance = Math.toRadians(tmp_coord.getLongitude() - this.getLongitude());
-        double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
-                + Math.cos(Math.toRadians(this.getLatitude())) * Math.cos(Math.toRadians(tmp_coord.getLatitude()))
-                * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
-        double tmp = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        double distance = EARTH_RADIUS_KM * tmp * 1000 ; // convert to meters
-        return distance;
-    }
-
-    @Override
-    public double getDistance(final Coordinate c) {
-        return getSphericDistance(c);
-    }
-
-    /**
-     * Checks if the given Coordinate is equal in respect to its consisting values.
-     *
-     * @param c the Coordinate to check the equality
-     * @return true if equal, otherwise false
-     */
-    @Override
-    public boolean isEqual(final Coordinate c) {
-        // check whether given c is null
-        if (c == null) {
-            return false;
-        }
-        SphericCoordinate tmp_coord = c.asSphericCoordinate();
-        // check individual Coordinates for equality
-        // individual doubles of Coordinates are being substracted and then compared to a fixed variable
-        // to avoid floating point errors during calculations
-        if ((Math.abs(this.getLatitude() - tmp_coord.getLatitude()) < DELTA) && (Math.abs(this.getLongitude() - tmp_coord.getLongitude()) < DELTA) && (Math.abs(this.getRadius() - tmp_coord.getRadius()) < DELTA)){
-            return true;
-        }
-        // in any other case cinate is deemed not equal
-        else {
-            return false;
-        }
     }
 
     /**
@@ -143,7 +117,6 @@ public class SphericCoordinate implements Coordinate {
         }
         this.radius = radius;
     }
-
     @Override
     public int hashCode() {
         int hash = 2003;
@@ -160,19 +133,5 @@ public class SphericCoordinate implements Coordinate {
     public String toString() {
         return "(" + latitude + ", " + longitude + ")";
     }
-
-    @Override
-    public boolean equals(Object obj) {
-        // check whether given obj is a Coordinate
-        if (!(obj instanceof SphericCoordinate))
-            return false;
-        // check whether given obj is itself
-        if (obj == this)
-            return true;
-        SphericCoordinate c = (SphericCoordinate) obj;
-        // in any other case call isEqual method
-        return this.isEqual(c);
-    }
-
 
 }

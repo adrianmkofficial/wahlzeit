@@ -1,5 +1,6 @@
 package org.wahlzeit.model;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -14,11 +15,15 @@ public class SphericCoordinateTest {
     SphericCoordinate nbg_lorenzkirche;
     SphericCoordinate fra_airport;
     SphericCoordinate lax_airport;
+    SphericCoordinate john_o_groats;
+
     @Before
     public void setUp() {
         nbg_lorenzkirche = new SphericCoordinate(49.450893,11.078049);
         fra_airport = new SphericCoordinate(50.0379, 8.5622);
         lax_airport = new SphericCoordinate(33.9416, -118.4085);
+        john_o_groats = new SphericCoordinate(58.643889, -3.070000);
+
     }
 
     @Test
@@ -44,6 +49,7 @@ public class SphericCoordinateTest {
 
     @Test
     public void testGetSphericDistance() {
+
         double result = nbg_lorenzkirche.getSphericDistance(fra_airport);
         assertEquals(192185.065, result, 0.5);
         result = fra_airport.getSphericDistance(lax_airport);
@@ -53,9 +59,9 @@ public class SphericCoordinateTest {
     @Test
     public void testGetDistance() {
         double result = nbg_lorenzkirche.getDistance(fra_airport);
-        assertEquals(192185.065, result, 0.5);
+        assertEquals(223, result, 0.5);
         result = fra_airport.getDistance(lax_airport);
-        assertEquals(9321318.72, result, 0.5);
+        assertEquals(7669, result, 0.5);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -74,5 +80,15 @@ public class SphericCoordinateTest {
     public void testSetRadius() {
         SphericCoordinate c_spheric = new SphericCoordinate(1, 1);
         c_spheric.setRadius(-1);
+    }
+
+    @Test
+    public void testConversion() {
+        CartesianCoordinate c = john_o_groats.asCartesianCoordinate();
+        assertEquals(john_o_groats, c.asSphericCoordinate());
+        assertTrue(john_o_groats.equals(c.asSphericCoordinate()));
+        assertTrue(john_o_groats.isEqual(c.asSphericCoordinate()));
+        assertEquals(john_o_groats.getDistance(c.asSphericCoordinate()),0,0.01);
+
     }
 }

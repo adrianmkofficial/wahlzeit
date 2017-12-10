@@ -68,7 +68,6 @@ public class Photo extends DataObject {
 	public static final int MAX_THUMB_PHOTO_HEIGHT = 150;
 
 	protected PhotoId id = null;
-	
 	/**
 	 *
 	 */
@@ -104,11 +103,6 @@ public class Photo extends DataObject {
 	 *
 	 */
 	protected PhotoStatus status = PhotoStatus.VISIBLE;
-
-	/**
-	 *
-	 */
-	public Location location = null;
 	
 	/**
 	 *
@@ -126,6 +120,8 @@ public class Photo extends DataObject {
 	 * The default type is jpg
 	 */
 	protected String ending = "jpg";
+	
+	protected Location location = null;
 	
 	/**
 	 *
@@ -153,14 +149,6 @@ public class Photo extends DataObject {
 		incWriteCount();
 	}
 
-	/**
-	 * @methodtype constructor
-	 */
-	public Photo(PhotoId myId, Location l) {
-		id = myId;
-		this.location = l;
-		incWriteCount();
-	}
 	/**
 	 * @methodtype get
 	 */
@@ -285,19 +273,6 @@ public class Photo extends DataObject {
 		return height;
 	}
 
-	/**
-	 * @methodtype get
-	 */
-	public Location getLocation() {
-		return location;
-	}
-
-	/**
-	 * @methodtype set
-	 */
-	public void setLocation(Location location) {
-		this.location = location;
-	}
 	/**
 	 * @methodtype get
 	 */
@@ -443,5 +418,18 @@ public class Photo extends DataObject {
 	public void setNoNewPraise() {
 		noVotesAtLastNotification = noVotes;
 		incWriteCount();
+	}
+
+	/**
+	 * @methodtype get
+	 */
+	public Location getLocation() {
+		return this.location;
+	}
+	/**
+	 * @methodtype set
+	 */
+	public void setLocation(Location location) {
+		this.location = location;
 	}
 }

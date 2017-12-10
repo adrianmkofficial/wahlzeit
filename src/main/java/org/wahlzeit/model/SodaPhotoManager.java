@@ -1,63 +1,42 @@
+/*
+ * Copyright (c) 2017 Adrian MK Fürst
+ *
+ * This file is part of the Wahlzeit photo rating application.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public
+ * License along with this program. If not, see
+ * <http://www.gnu.org/licenses/>.
+ */
+
 package org.wahlzeit.model;
+
 import java.util.logging.Logger;
 
+import com.googlecode.objectify.annotation.Subclass;
+
+@Subclass
 public class SodaPhotoManager extends PhotoManager {
-    private static final Logger log = Logger.getLogger(SodaPhotoManager.class.getName());
-    /**
-     *
-     */
-    protected static final SodaPhotoManager instance = new SodaPhotoManager();
 
-    /**
-     *
-     */
-    public SodaPhotoManager() {
-        photoTagCollector = SodaPhotoFactory.getInstance().createPhotoTagCollector();
-    }
+	protected static final SodaPhotoManager instance = new SodaPhotoManager();
+	private static final Logger log = Logger.getLogger(SodaPhotoManager.class.getName());
 
-    /**
-     *
-     */
-    @Override
-    public final Photo getPhoto(PhotoId id) {
-        return getInstance().getPhotoFromId(id);
-    }
-
-    /**
-     *
-     */
-    @Override
-    public Photo getPhotoFromId(PhotoId id) {
-        if (id == null) {
-            return null;
-        }
-
-        Photo result = doGetPhotoFromId(id);
-
-        if (result == null) {
-            result = SodaPhotoFactory.getInstance().loadPhoto(id);
-            if (result != null) {
-                doAddPhoto(result);
-            }
-        }
-
-        return result;
-    }
-
-    public final SodaPhoto getSodaPhoto(PhotoId id) {
-        return getInstance().getSodaPhotoFromId(id);
-    }
-
-    public SodaPhoto getSodaPhotoFromId(PhotoId id) {
-        Photo SodaPhoto = getInstance().getPhoto(id);
-
-        return SodaPhoto instanceof SodaPhoto ? (SodaPhoto) SodaPhoto : null;
-    }
-
-    /**
-     *
-     */
-    public static final SodaPhotoManager getInstance() {
-        return instance;
-    }
+	/**
+	 * Public singleton access method
+	 *
+	 * @methodtype getter
+	 */
+	public static final SodaPhotoManager getInstance() {
+		return instance;
+	}
+	
 }

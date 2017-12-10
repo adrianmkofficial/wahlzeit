@@ -1,139 +1,187 @@
+/*
+ * Copyright (c) 2017 Adrian MK Fürst
+ *
+ * This file is part of the Wahlzeit photo rating application.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public
+ * License along with this program. If not, see
+ * <http://www.gnu.org/licenses/>.
+ */
+
 package org.wahlzeit.model;
 
+
+import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Subclass;
-/**
- * A SodaPhoto represents a user-provided (uploaded) photo of a soda / soft drink.
- */
+import org.wahlzeit.utils.CountryUtil;
+
+
 @Subclass
 public class SodaPhoto extends Photo {
 
-    /**
-     * Name of a soft drink
-     */
-    protected String sodaName;
+	// Name of the soda depicted
+	protected String name;
 
-    /**
-     * Name of the manufacturer of a soft drink
-     */
-    protected String manufacturer;
+	// Name of the manufacturer of a soda
+	protected String manufacturer;
 
-    /**
-     * Serving size of soda in milliliters
-     */
-    protected Double serving_size_ml;
+	// Serving size of soda in milliliters
+	protected Double serving_size_ml;
 
-    /**
-     * Country of origin of a soda.
-     * NOTE: Each uploaded drink has its own country of origin,
-     * thus we distinguish between e.g. a Coke from USA and Germany
-     */
-    protected String country;
+	/**
+	 * Country of origin of a soda.
+	 * NOTE: Sodas can be attributed with a country, so we can distinguish between e.g. a Coke from USA and Germany
+	 * since the ingredients differ slightly as well (e.g. use of high glucose fructose syrup instead of sugar)
+	 */
+	protected String country;
 
-    /**
-     * This is the standard constructor of the SodaPhoto class.
-     */
-    public SodaPhoto() {
-        super();
-    }
+	/**
+	 * This is the standard constructor of the SodaPhoto class.
+	 *
+	 * @methodtype constructor
+	 */
+	public SodaPhoto() {
+		super();
+	}
 
-    /**
-     * Constructor of the SodaPhoto class.
-     *
-     * @param id
-     */
-    public SodaPhoto(PhotoId id) {
-        super(id);
-    }
+	/**
+	 * Constructor of the SodaPhoto class.
+	 *
+	 * @param id
+	 * @methodtype constructor
+	 */
+	public SodaPhoto(PhotoId id) {
+		super(id);
+	}
 
-    /**
-     * Constructor of the SodaPhoto class.
-     *
-     * @param sodaName
-     * @param manufacturer
-     * @param serving_size_ml
-     * @param country
-     */
-    public SodaPhoto(PhotoId photoId, String sodaName, String manufacturer, Double serving_size_ml, String country)
-    {
-        this.id = photoId;
-        this.sodaName = sodaName;
-        this.manufacturer = manufacturer;
-        this.serving_size_ml = serving_size_ml;
-        this.country = country;
-    }    /**
-     * Gets the name of the Soda in the photo.
-     *
-     * @return the name as string
-     */
-    public String getName() {
-        return sodaName;
-    }
+	/**
+	 * Convenience constructor of the SodaPhoto class.
+	 *
+	 * @param name
+	 * @param manufacturer
+	 * @param serving_size_ml
+	 * @param country
+	 * @methodtype constructor
+	 */
+	public SodaPhoto(PhotoId photoId, String name, String manufacturer, Double serving_size_ml, String country) {
+		this.id = photoId;
+		setName(name);
+		setManufacturer(manufacturer);
+		setServing_size_ml(serving_size_ml);
+		setCountry(country);
+	}
 
-    /**
-     * Sets the name of the Soda in the photo.
-     *
-     * @param name
-     */
-    public void setName(String name) {
-        this.sodaName = name;
-    }
+	/**
+	 * Gets the name of the Soda in the photo.
+	 *
+	 * @return name of soda as string
+	 * @methodtype get
+	 */
+	public final String getName() {
+		return name;
+	}
 
-    /**
-     * Gets the name of the manufacturer.
-     *
-     * @return the name as string
-     */
-    public String getManufacturer() {
-        return manufacturer;
-    }
+	/**
+	 * Sets the name of the Soda in the photo.
+	 *
+	 * @param name name of soda
+	 * @methodtype set
+	 */
+	public final void setName(String name) {
+		if(name == null) {
+			throw new IllegalArgumentException("Illegal name!");
+		}
+		this.name = name;
+	}
 
-    /**
-     * Sets the name of the manufacturer.
-     *
-     * @param manufacturer the name of the manufacturer
-     */
-    public void setManufacturer(String manufacturer) {
-        this.manufacturer = manufacturer;
-    }
+	/**
+	 * Gets the name of the manufacturer.
+	 *
+	 * @return manufacturer of soda as string
+	 * @methodtype get
+	 */
+	public final String getManufacturer() {
+		return manufacturer;
+	}
+
+	/**
+	 * Sets the name of the manufacturer.
+	 *
+	 * @param manufacturer manufacturer of soda
+	 * @methodtype set
+	 */
+	public final void setManufacturer(String manufacturer) {
+		if(manufacturer == null) {
+			throw new IllegalArgumentException("Illegal manufacturer!");
+		}
+		this.manufacturer = manufacturer;
+	}
 
 
-    /**
-     * Gets the serving size in milliliters.
-     *
-     * @methodtype get
-     * @return serving_size_ml the serving size in milliliters as double
-     */
-    public Double getServing_size_ml() {
-        return serving_size_ml;
-    }
+	/**
+	 * Gets the serving size in milliliters.
+	 *
+	 * @return serving_size_ml the serving size of soda in milliliters as double
+	 * @methodtype get
+	 */
+	public final Double getServing_size_ml() {
+		return serving_size_ml;
+	}
 
-    /**
-     * Set the serving size in milliliters.
-     *
-     * @methodtype set
-     * @param serving_size_ml the serving size in milliliters
-     */
-    public void setServing_size_ml(Double serving_size_ml) {
-        this.serving_size_ml = serving_size_ml;
-    }
+	/**
+	 * Gets the serving size in fluid ounces.
+	 *
+	 * @return serving_size_oz the serving size of soda in ounces as double
+	 * @methodtype get
+	 */
+	public final Double serving_size_oz() {
+		return serving_size_ml * 0.033814;
+	}
 
-    /**
-     * Gets the country of origin of a soda.
-     *
-     * @methodtype get
-     * @return country the country of origin as string
-     */
-    public String getCountry() {
-        return country;
-    }
 
-    /**
-     * Set the country of origin of a soda.
-     *
-     * @methodtype set
-     * @param country the country of origin
-     */
-    public void setCountry(String country) {
-        this.country = country;
-    }
+	/**
+	 * Set the serving size in milliliters.
+	 *
+	 * @param serving_size_ml the serving size of soda in milliliters
+	 * @methodtype set
+	 */
+	public final void setServing_size_ml(Double serving_size_ml) {
+		if (serving_size_ml <= 0) {
+			throw new IllegalArgumentException("Illegal serving size!");
+		}
+		this.serving_size_ml = serving_size_ml;
+	}
+
+	/**
+	 * Gets the country of origin of a soda.
+	 *
+	 * @return country the country of origin as string
+	 * @methodtype get
+	 */
+	public final String getCountry() {
+		return country;
+	}
+
+	/**
+	 * Set the country of origin of a soda.
+	 *
+	 * @param country the country of origin
+	 * @methodtype set
+	 */
+	public final void setCountry(String country) {
+		if (!CountryUtil.isValidCountry(country)) {
+			throw new IllegalArgumentException("Country doesn't exist!");
+		}
+		this.country = country;
+	}
 }
