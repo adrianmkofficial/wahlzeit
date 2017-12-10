@@ -1,3 +1,23 @@
+/*
+ * Copyright (c) 2017 Adrian MK Fürst
+ *
+ * This file is part of the Wahlzeit photo rating application.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public
+ * License along with this program. If not, see
+ * <http://www.gnu.org/licenses/>.
+ */
+
 package org.wahlzeit.model;
 
 /**
@@ -21,52 +41,11 @@ public class CartesianCoordinate extends AbstractCoordinate {
     }
 
     @Override
-    public double getCartesianDistance(final Coordinate c) {
-        CartesianCoordinate tmp_coord = c.asCartesianCoordinate();
-        if (c == null) {
-            throw new IllegalArgumentException("Coordinate can not be null.");
-        }
-        double result = Math.sqrt(Math.pow(this.getX() - tmp_coord.getX() , 2) + Math.pow(this.getY() - tmp_coord.getY(), 2) + Math.pow(this.getZ() - tmp_coord.getZ(), 2));
-        // check for overflows of result to infinity
-        if (Double.isInfinite(result)){
-            throw new ArithmeticException("Overflow");
-        }
-        return result;
-    }
-
-    @Override
     public SphericCoordinate asSphericCoordinate() {
         double radius = Math.sqrt(x * x + y * y + z * z);
         double latitude = Math.toDegrees(Math.acos(z / radius));
         double longitude = Math.toDegrees(Math.atan2(y, x));
         return new SphericCoordinate(latitude, longitude, radius);
-    }
-
-    @Override
-    public double getSphericDistance(final Coordinate c) {
-        return this.asSphericCoordinate().getDistance(c);
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        // check whether given obj is a Coordinate
-        if (!(obj instanceof CartesianCoordinate))
-            return false;
-        // check whether given obj is itself
-        if (obj == this)
-            return true;
-        CartesianCoordinate c = (CartesianCoordinate) obj;
-        // in any other case call isEqual method
-        return this.isEqual(c);
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 37 * hash + (int) (Double.doubleToLongBits(x) ^ (Double.doubleToLongBits(x) >>> 32));
-        hash = 37 * hash + (int) (Double.doubleToLongBits(y) ^ (Double.doubleToLongBits(y) >>> 32));
-        hash = 37 * hash + (int) (Double.doubleToLongBits(z) ^ (Double.doubleToLongBits(z) >>> 32));
-        return hash;
     }
 
     public double getX() {
@@ -92,6 +71,16 @@ public class CartesianCoordinate extends AbstractCoordinate {
     public void setZ(double z) {
         this.z = z;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 37 * hash + (int) (Double.doubleToLongBits(x) ^ (Double.doubleToLongBits(x) >>> 32));
+        hash = 37 * hash + (int) (Double.doubleToLongBits(y) ^ (Double.doubleToLongBits(y) >>> 32));
+        hash = 37 * hash + (int) (Double.doubleToLongBits(z) ^ (Double.doubleToLongBits(z) >>> 32));
+        return hash;
+    }
+
     @Override
     public String toString() {
         return "(" + x + "," + y + "," + z + ")";

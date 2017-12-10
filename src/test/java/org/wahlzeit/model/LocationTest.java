@@ -2,6 +2,7 @@ package org.wahlzeit.model;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.internal.matchers.Null;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -29,13 +30,9 @@ public class LocationTest {
 
     @Test
     public void testConstructor() {
-        assertNotEquals(new CartesianCoordinate(x,y,z), l_default.getCoordinate());
-
-    }
-
-    @Test
-    public void testConstructor_Parametrized() {
         assertEquals(new CartesianCoordinate(x,y,z), l_parameterized.getCoordinate());
+        assertNotEquals(new CartesianCoordinate(0,0,0), l_parameterized.getCoordinate());
+
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -45,11 +42,11 @@ public class LocationTest {
 
     @Test
     public void testSetAndGet() {
-        l_default.setCoordinate(new CartesianCoordinate(x,y,z));
-        assertEquals(new CartesianCoordinate(x,y,z), l_default.getCoordinate());
+        l_parameterized.setCoordinate(new CartesianCoordinate(x,y,z));
+        assertEquals(new CartesianCoordinate(x,y,z), l_parameterized.getCoordinate());
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = NullPointerException.class)
     public void testSetAndGet_Null() {
         l_default.setCoordinate(null);
     }

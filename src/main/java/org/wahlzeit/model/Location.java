@@ -32,6 +32,9 @@ public class Location {
 	 * @methodtype constructor
 	 */
 	public Location(Coordinate coordinate) {
+		if (coordinate == null) {
+			throw new IllegalArgumentException("Coordinate can not be null.");
+		}
 		this.coordinate = coordinate;
 	}
 	
@@ -46,6 +49,9 @@ public class Location {
 	 * @methodtype set
 	 */
 	public void setCoordinate(Coordinate c) {
+		if (coordinate == null) {
+			throw new IllegalArgumentException("Coordinate can not be null.");
+		}
 		this.coordinate = c;
 	}
 	
