@@ -3,7 +3,7 @@ package org.wahlzeit.model;
 /**
  * A class representing a Coordinate in the Cartesian system.
  */
-public class CartesianCoordinate implements Coordinate {
+public class CartesianCoordinate extends AbstractCoordinate {
 
     private double x;
     private double y;
@@ -45,42 +45,6 @@ public class CartesianCoordinate implements Coordinate {
     @Override
     public double getSphericDistance(final Coordinate c) {
         return this.asSphericCoordinate().getDistance(c);
-    }
-
-    /**
-     * Returns the Euclidian distance between this and the given CartesianCoordinate.
-     *
-     * @param c the CartesianCoordinate to measure the distance to
-     * @return the Euclidian distance
-     */
-    @Override
-    public double getDistance(final Coordinate c) {
-        return getCartesianDistance(c);
-    }
-
-    /**
-     * Checks if the given Coordinate is equal in respect to its consisting values.
-     *
-     * @param c the Coordinate to check the equality
-     * @return true if equal, otherwise false
-     */
-    @Override
-    public boolean isEqual(final Coordinate c) {
-        // check whether given c is null
-        if (c == null) {
-            return false;
-        }
-        CartesianCoordinate tmp_coord = c.asCartesianCoordinate();
-        // check individual coordinates for equality
-        // individual doubles of coordinates are being substracted and then compared to a fixed variable
-        // to avoid floating point errors during calculations
-        if ((Math.abs(this.getX() - tmp_coord.getX()) < DELTA) && (Math.abs(this.getY() - tmp_coord.getY()) < DELTA) && (Math.abs(this.getZ() - tmp_coord.getZ()) < DELTA)){
-            return true;
-        }
-        // in any other case coordinate is deemed not equal
-        else {
-            return false;
-        }
     }
 
     @Override

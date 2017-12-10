@@ -19,46 +19,24 @@
  */
 
 package org.wahlzeit.model;
+
 import java.util.logging.Logger;
 
+import com.googlecode.objectify.annotation.Subclass;
+
+@Subclass
 public class SodaPhotoManager extends PhotoManager {
 
-    private static final Logger log = Logger.getLogger(SodaPhotoManager.class.getName());
+	protected static final SodaPhotoManager instance = new SodaPhotoManager();
+	private static final Logger log = Logger.getLogger(SodaPhotoManager.class.getName());
 
-    protected static final SodaPhotoManager instance = new SodaPhotoManager();
-    
-    /**
-     * @methodtype command
-     * @methodproperty primitive
-     */
-    protected void doAddSodaPhoto(SodaPhoto mySodaPhoto) {
-        super.doAddPhoto(mySodaPhoto);
-    }
-
-    /**
-     * @methodtype command
-     * @methodproperty primitive
-     */
-    @Override
-    protected void doAddPhoto(Photo myPhoto) {
-        if(!(myPhoto instanceof SodaPhoto)) {
-            throw new IllegalArgumentException("Expected SodaPhoto");
-        }
-        doAddSodaPhoto((SodaPhoto) myPhoto);
-    }
-
-    /**
-     * @methodtype getter
-     */
-    public SodaPhoto getSodaPhoto(PhotoId id) {
-        return (SodaPhoto) super.getPhoto(id);
-    }
-    /**
-     * Public singleton access method
-     *
-     * @methodtype getter
-     */
-    public static final SodaPhotoManager getInstance() {
-        return (SodaPhotoManager)instance;
-    }
+	/**
+	 * Public singleton access method
+	 *
+	 * @methodtype getter
+	 */
+	public static final SodaPhotoManager getInstance() {
+		return instance;
+	}
+	
 }

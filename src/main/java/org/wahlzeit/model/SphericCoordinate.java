@@ -1,6 +1,6 @@
 package org.wahlzeit.model;
 
-public class SphericCoordinate implements Coordinate {
+public class SphericCoordinate extends AbstractCoordinate {
 
     private static final double LONGITUDE_MIN = -180;
     private static final double LONGITUDE_MAX = 180;
@@ -61,36 +61,6 @@ public class SphericCoordinate implements Coordinate {
         double tmp = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         double distance = EARTH_RADIUS_KM * tmp * 1000 ; // convert to meters
         return distance;
-    }
-
-    @Override
-    public double getDistance(final Coordinate c) {
-        return getSphericDistance(c);
-    }
-
-    /**
-     * Checks if the given Coordinate is equal in respect to its consisting values.
-     *
-     * @param c the Coordinate to check the equality
-     * @return true if equal, otherwise false
-     */
-    @Override
-    public boolean isEqual(final Coordinate c) {
-        // check whether given c is null
-        if (c == null) {
-            return false;
-        }
-        SphericCoordinate tmp_coord = c.asSphericCoordinate();
-        // check individual Coordinates for equality
-        // individual doubles of Coordinates are being substracted and then compared to a fixed variable
-        // to avoid floating point errors during calculations
-        if ((Math.abs(this.getLatitude() - tmp_coord.getLatitude()) < DELTA) && (Math.abs(this.getLongitude() - tmp_coord.getLongitude()) < DELTA) && (Math.abs(this.getRadius() - tmp_coord.getRadius()) < DELTA)){
-            return true;
-        }
-        // in any other case cinate is deemed not equal
-        else {
-            return false;
-        }
     }
 
     /**

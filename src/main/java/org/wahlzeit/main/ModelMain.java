@@ -20,6 +20,7 @@
 
 package org.wahlzeit.main;
 
+import org.wahlzeit.model.SodaPhotoFactory;
 import org.wahlzeit.model.GlobalsManager;
 import org.wahlzeit.model.PhotoCaseManager;
 import org.wahlzeit.model.PhotoFactory;
@@ -58,12 +59,13 @@ public abstract class ModelMain extends AbstractMain {
 
 		log.config(LogBuilder.createSystemMessage().addAction("load user").toString());
 		UserManager.getInstance().init();
-
-		log.config(LogBuilder.createSystemMessage().addAction("init PhotoFactory").toString());
-		PhotoFactory.initialize();
+		
+		log.config(LogBuilder.createSystemMessage().addAction("init SodaPhotoFactory").toString());
+		PhotoFactory.initialize(SodaPhotoFactory.getInstance());
 
 		log.config(LogBuilder.createSystemMessage().addAction("load Photos").toString());
 		PhotoManager.getInstance().init();
+		
 	}
 
 

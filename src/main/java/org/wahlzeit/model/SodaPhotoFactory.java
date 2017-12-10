@@ -1,79 +1,90 @@
+/*
+ * Copyright (c) 2017 Adrian MK Fürst
+ *
+ * This file is part of the Wahlzeit photo rating application.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public
+ * License along with this program. If not, see
+ * <http://www.gnu.org/licenses/>.
+ */
+
 package org.wahlzeit.model;
+
 import java.util.logging.Logger;
+
 import org.wahlzeit.services.LogBuilder;
 
+import com.googlecode.objectify.annotation.Subclass;
+
+@Subclass
 public class SodaPhotoFactory extends PhotoFactory {
-    private static final Logger log = Logger.getLogger(SodaPhotoFactory.class.getName());
+	
+	private static final Logger log = Logger.getLogger(PhotoFactory.class.getName());
+	
+	private static SodaPhotoFactory instance = null;
+	
+	public SodaPhotoFactory() {
+		
+	}
+	/**
+	 * Public singleton access method.
+	 * @return the instance of the SodaPhotoFactory
+	 * @methodtype get
+	 */
+	public static synchronized SodaPhotoFactory getInstance() {
+		if (instance == null) {
+			log.config(LogBuilder.createSystemMessage().addAction("setting SodaPhotoFactory").toString());
+			setInstance(new SodaPhotoFactory());
+		}
+		return instance;
+	}
 
-    /**
-     * Hidden singleton instance; needs to be initialized from the outside.
-     */
-    private static SodaPhotoFactory instance = null;
+	/**
+	 * Method to set the singleton instance of SodaPhotoFactory.
+	 *
+	 * @param sodaPhotoFactory the instance to set
+	 * @methodtype set
+	 */
+	protected static synchronized void setInstance(SodaPhotoFactory sodaPhotoFactory) {
+		if (instance != null) {
+			throw new IllegalStateException("attempt to initialize PhotoFactory twice");
+		}
 
-    /**
-     * Public singleton access method.
-     *
-     * @return the instance of the SodaPhotoFactory
-     */
-    public static synchronized SodaPhotoFactory getInstance() {
-        if (instance == null) {
-            log.config(LogBuilder.createSystemMessage().addAction("setting generic SodaPhotoFactory").toString());
-            setInstance(new SodaPhotoFactory());
-        }
+		instance = sodaPhotoFactory;
+	}
 
-        return instance;
-    }
+	/**
+	 * Creates a new soda photo.
+	 *
+	 * @methodtype factory
+	 */
+	@Override
+	public Photo createPhoto() {
+		return new SodaPhoto();
+	}
 
-    /**
-     * Method to set the singleton instance of SodaPhotoFactory.
-     *
-     * @param sodaPhotoFactory the instance to set
-     */
-    protected static synchronized void setInstance(SodaPhotoFactory sodaPhotoFactory) {
-        if (instance != null) {
-            throw new IllegalStateException("attempt to initalize SodaPhotoFactory twice");
-        }
+	/**
+	 * Creates a new soda photo with the specified id.
+	 *
+	 * @methodtype factory
+	 */
+	@Override
+	public Photo createPhoto(PhotoId id) {
+		return new SodaPhoto(id);
+	}
 
-        instance = sodaPhotoFactory;
-    }
+	protected static Logger getLogger() {
+		return log;
+	}
 
-    /**
-     * Creates a new photo.
-     *
-     * @methodtype factory
-     */
-    public SodaPhoto createPhoto() {
-        return new SodaPhoto();
-    }
-
-    /**
-     * Creates a new soda photo with the specified id.
-     *
-     * @methodtype factory
-     */
-    public SodaPhoto createPhoto(PhotoId id) {
-        return new SodaPhoto(id);
-    }
-
-    public SodaPhoto createSodaPhoto(PhotoId photoId, String sodaName, String manufacturer, Double serving_size_ml, String country) {
-        return new SodaPhoto(photoId, sodaName, manufacturer, serving_size_ml, country);
-    }
-
-    /**
-     *
-     */
-    protected SodaPhotoFactory() {
-        // do nothing
-    }
-
-    /**
-     * Hidden singleton instance; needs to be initialized from the outside.
-     */
-    public static void initialize() {
-        getInstance();
-    }
-
-    protected static Logger getLogger() {
-        return log;
-    }
 }

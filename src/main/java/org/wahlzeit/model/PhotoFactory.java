@@ -5,7 +5,7 @@
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
+ * published by the Free Ssoftware Foundation, either version 3 of the
  * License, or (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -27,7 +27,7 @@ import java.util.logging.Logger;
 /**
  * An Abstract Factory for creating photos and related objects.
  */
-public class PhotoFactory {
+public  class PhotoFactory {
 
 	private static final Logger log = Logger.getLogger(PhotoFactory.class.getName());
 	/**
@@ -47,6 +47,9 @@ public class PhotoFactory {
 	 */
 	public static void initialize() {
 		getInstance(); // drops result due to getInstance() side-effects
+	}
+	public static void initialize(PhotoFactory photoFactory) {
+		setInstance(photoFactory);
 	}
 
 	/**
