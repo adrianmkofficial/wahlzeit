@@ -38,13 +38,13 @@ public interface Coordinate {
     SphericCoordinate asSphericCoordinate();
 
     /**
-     * @methodtype get
+     * @methodtype conversion
      * Returns cartesian distance of two Coordinates
      */
     double getCartesianDistance(final Coordinate c);
 
     /**
-     * @methodtype get
+     * @methodtype conversion
      * Returns spherical distance of two Coordinates
      */
     double getSphericDistance(final Coordinate c);
@@ -54,7 +54,7 @@ public interface Coordinate {
      *
      * @param c the Coordinate to measure the distance to
      * @return the distance
-     * @methodtype get
+     * @methodtype query-method
      */
     double getDistance(final Coordinate c);
 
@@ -63,7 +63,7 @@ public interface Coordinate {
      *
      * @param c the Coordinate to check for equality
      * @return true if equal, otherwise false
-     * @methodtype query
+     * @methodtype boolean-query
      */
     boolean isEqual(final Coordinate c);
 }

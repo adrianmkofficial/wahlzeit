@@ -24,14 +24,25 @@ public abstract class AbstractCoordinate implements Coordinate {
 
     // Delta is a constant used in floating point operations.
     public static final double DELTA = 0.000001;
-
+    
+    /**
+     * @return new instance of {@link CartesianCoordinate} with attributes of this instance
+     * @methodtype conversion
+     */
     @Override
     abstract public CartesianCoordinate asCartesianCoordinate();
 
+    /**
+     * @return new instance of {@link SphericCoordinate} with attributes of this instance
+     * @methodtype conversion
+     */
     @Override
     abstract public SphericCoordinate asSphericCoordinate();
 
-    //getCartDistance & SphericDistance in abstract
+    /**
+     * @methodtype conversion
+     * Returns cartesian distance of two Coordinates
+     */
     @Override
     public double getCartesianDistance(Coordinate c) {
         CartesianCoordinate this_coord = this.asCartesianCoordinate();
@@ -47,6 +58,10 @@ public abstract class AbstractCoordinate implements Coordinate {
         return result;
     }
 
+    /**
+     * @methodtype conversion
+     * Returns spherical distance of two Coordinates
+     */
     @Override
     public double getSphericDistance(Coordinate c) {
         SphericCoordinate this_coord = this.asSphericCoordinate();
@@ -61,6 +76,13 @@ public abstract class AbstractCoordinate implements Coordinate {
         return distance;
     }
 
+    /**
+     * Returns the (cartesian) distance between this and the given Coordinate.
+     *
+     * @param c the Coordinate to measure the distance to
+     * @return the distance
+     * @methodtype query-method
+     */
     @Override
     public double getDistance(Coordinate c) {
         // always return cartesian distance to have method work consistently
@@ -69,6 +91,13 @@ public abstract class AbstractCoordinate implements Coordinate {
         return this_coord.getCartesianDistance(other_coord);
     }
 
+    /**
+     * Checks if the given Coordinate is equal in respect to its consisting values.
+     *
+     * @param c the Coordinate to check for equality
+     * @return true if equal, otherwise false
+     * @methodtype boolean-query
+     */
     @Override
     public boolean isEqual(Coordinate c) {
         if(c == this) {
