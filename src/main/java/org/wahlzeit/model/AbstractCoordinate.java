@@ -60,7 +60,6 @@ public abstract class AbstractCoordinate implements Coordinate {
         double distance = this_coord.getRadius() * tmp * 1000; // convert to meters
         return distance;
     }
-    // todo add methodtype and shit
 
     @Override
     public double getDistance(Coordinate c) {
