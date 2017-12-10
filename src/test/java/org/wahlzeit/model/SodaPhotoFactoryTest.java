@@ -12,7 +12,7 @@ public class SodaPhotoFactoryTest {
 
     @Test
     public void testCreateNotNull() {
-        SodaPhoto photo = SodaPhotoFactory.getInstance().createPhoto();
+        Photo photo = SodaPhotoFactory.getInstance().createPhoto();
         assertNotNull(photo);
     }
 
@@ -20,7 +20,7 @@ public class SodaPhotoFactoryTest {
     @Test
     public void testCreateId_Parametrized() {
         int id = 22;
-        SodaPhoto photo = SodaPhotoFactory.getInstance().createPhoto(new PhotoId(id));
+        Photo photo = SodaPhotoFactory.getInstance().createPhoto(new PhotoId(id));
         assertNotNull(photo);
         assertEquals(id, photo.getId().asInt());
     }
