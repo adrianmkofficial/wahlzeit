@@ -30,7 +30,11 @@ public class SodaPhotoTest {
 
     @Test
     public void testGetAndSetCountry() {
-        String tCountry = "USA";
+        String tCountry = "US";
+        soda.setCountry(tCountry);
+        assertTrue(soda.getCountry().equals(tCountry));
+
+        tCountry = "DE";
         soda.setCountry(tCountry);
         assertTrue(soda.getCountry().equals(tCountry));
     }
@@ -42,4 +46,23 @@ public class SodaPhotoTest {
         assertEquals(tServing, soda.getServing_size_ml(),  0.0001);
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void testIllegalName() {
+        soda.setName(null);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testIllegalManufacturer() {
+        soda.setManufacturer(null);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testIllegalServingSize() {
+        soda.setServing_size_ml(-12d);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testIllegalCountry() {
+        soda.setCountry("Deutschland"); // ISO2-Letters used
+    }
 }

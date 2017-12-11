@@ -79,6 +79,7 @@ public class SodaPhoto extends Photo {
 		setManufacturer(manufacturer);
 		setServing_size_ml(serving_size_ml);
 		setCountry(country);
+		assertClassInvariants();
 	}
 
 	/**
@@ -97,10 +98,8 @@ public class SodaPhoto extends Photo {
 	 * @param name name of soda
 	 * @methodtype set
 	 */
-	public final void setName(String name) {
-		if(name == null) {
-			throw new IllegalArgumentException("Illegal name!");
-		}
+	public final void setName(String name) throws IllegalArgumentException {
+		assertName(name);
 		this.name = name;
 	}
 
@@ -120,10 +119,8 @@ public class SodaPhoto extends Photo {
 	 * @param manufacturer manufacturer of soda
 	 * @methodtype set
 	 */
-	public final void setManufacturer(String manufacturer) {
-		if(manufacturer == null) {
-			throw new IllegalArgumentException("Illegal manufacturer!");
-		}
+	public final void setManufacturer(String manufacturer) throws IllegalArgumentException{
+		assertManufacturer(manufacturer);
 		this.manufacturer = manufacturer;
 	}
 
@@ -155,10 +152,8 @@ public class SodaPhoto extends Photo {
 	 * @param serving_size_ml the serving size of soda in milliliters
 	 * @methodtype set
 	 */
-	public final void setServing_size_ml(Double serving_size_ml) {
-		if (serving_size_ml <= 0) {
-			throw new IllegalArgumentException("Illegal serving size!");
-		}
+	public final void setServing_size_ml(Double serving_size_ml) throws IllegalArgumentException {
+		assertServingSize(serving_size_ml);
 		this.serving_size_ml = serving_size_ml;
 	}
 
@@ -178,10 +173,62 @@ public class SodaPhoto extends Photo {
 	 * @param country the country of origin
 	 * @methodtype set
 	 */
-	public final void setCountry(String country) {
+	public final void setCountry(String country) throws IllegalArgumentException {
+		assertCountry(country);
+		this.country = country;
+	}
+
+	/**
+	 * @methodtype assertion
+	 */
+	protected void assertName(String name) throws IllegalArgumentException
+	{
+		if(name == null) {
+			throw new IllegalArgumentException("Illegal name!");
+		}
+	}
+
+	/**
+	 * @methodtype assertion
+	 */
+	protected void assertManufacturer(String manufacturer) throws IllegalArgumentException
+	{
+		if(manufacturer == null) {
+			throw new IllegalArgumentException("Illegal manufacturer!");
+		}
+	}
+
+	/**
+	 * @methodtype assertion
+	 */
+	protected void assertServingSize(Double serving_size_ml) throws IllegalArgumentException
+	{
+		if (serving_size_ml <= 0 || Double.isInfinite(serving_size_ml) || Double.isNaN(serving_size_ml)) {
+			throw new IllegalArgumentException("Illegal serving size!");
+		}
+	}
+
+	/**
+	 * @methodtype assertion
+	 */
+	protected void assertCountry(String country) throws IllegalArgumentException
+	{
 		if (!CountryUtil.isValidCountry(country)) {
 			throw new IllegalArgumentException("Country doesn't exist!");
 		}
-		this.country = country;
+	}
+
+	/**
+	 * @methodtype assertion
+	 */
+	protected void assertClassInvariants() throws IllegalStateException{
+		try {
+			assertName(name);
+			assertManufacturer(manufacturer);
+			assertServingSize(serving_size_ml);
+			assertCountry(country);
+		} catch(IllegalArgumentException e) {
+			throw new IllegalStateException();
+		}
 	}
 }
