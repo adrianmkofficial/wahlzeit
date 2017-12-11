@@ -36,13 +36,13 @@ public class CartesianCoordinate extends AbstractCoordinate {
     }
 
     @Override
-    public CartesianCoordinate asCartesianCoordinate() {
+    public CartesianCoordinate asCartesianCoordinate() throws IllegalStateException {
         assertClassInvariants();
         return this;
     }
 
     @Override
-    public SphericCoordinate asSphericCoordinate() {
+    public SphericCoordinate asSphericCoordinate() throws IllegalArgumentException, IllegalStateException {
         assertClassInvariants();
         double radius = Math.sqrt(x * x + y * y + z * z);
         double latitude = Math.toDegrees(Math.acos(z / radius));
@@ -54,11 +54,10 @@ public class CartesianCoordinate extends AbstractCoordinate {
     }
 
     public double getX() {
-        assertClassInvariants();
         return x;
     }
 
-    public void setX(double x) {
+    public void setX(double x) throws IllegalArgumentException, IllegalStateException {
         assertClassInvariants();
         assertValidDouble(x);
         this.x = x;
@@ -66,11 +65,10 @@ public class CartesianCoordinate extends AbstractCoordinate {
     }
 
     public double getY() {
-        assertClassInvariants();
         return y;
     }
 
-    public void setY(double y) {
+    public void setY(double y) throws IllegalArgumentException, IllegalStateException {
         assertClassInvariants();
         assertValidDouble(y);
         this.y = y;
@@ -78,11 +76,10 @@ public class CartesianCoordinate extends AbstractCoordinate {
     }
 
     public double getZ() {
-        assertClassInvariants();
         return z;
     }
 
-    public void setZ(double z) {
+    public void setZ(double z) throws IllegalArgumentException, IllegalStateException {
         assertClassInvariants();
         assertValidDouble(z);
         this.z = z;

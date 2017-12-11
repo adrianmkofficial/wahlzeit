@@ -44,7 +44,7 @@ public abstract class AbstractCoordinate implements Coordinate {
      * Returns cartesian distance of two Coordinates
      */
     @Override
-    public double getCartesianDistance(Coordinate c) {
+    public double getCartesianDistance(Coordinate c) throws IllegalArgumentException, IllegalStateException {
         assertClassInvariants();
         assertNotNull(c);
         CartesianCoordinate this_coord = this.asCartesianCoordinate();
@@ -61,7 +61,7 @@ public abstract class AbstractCoordinate implements Coordinate {
      * Returns spherical distance of two Coordinates
      */
     @Override
-    public double getSphericDistance(Coordinate c) {
+    public double getSphericDistance(Coordinate c) throws IllegalArgumentException, IllegalStateException {
         assertClassInvariants();
         assertNotNull(c);
         SphericCoordinate this_coord = this.asSphericCoordinate();
@@ -87,7 +87,7 @@ public abstract class AbstractCoordinate implements Coordinate {
      * @methodtype query-method
      */
     @Override
-    public double getDistance(Coordinate c) {
+    public double getDistance(Coordinate c) throws IllegalArgumentException, IllegalStateException {
         assertClassInvariants();
         assertNotNull(c);
         // always return cartesian distance to have method work consistently
@@ -132,7 +132,7 @@ public abstract class AbstractCoordinate implements Coordinate {
     /**
      * @methodtype assertion
      */
-    protected void assertNotNull(Object o) {
+    protected void assertNotNull(Object o) throws IllegalArgumentException {
         if(o == null) {
             throw new IllegalArgumentException("Illegal null object!");
         }
@@ -141,12 +141,12 @@ public abstract class AbstractCoordinate implements Coordinate {
     /**
      * @methodtype assertion
      */
-    protected void assertValidDouble(double d) {
+    protected void assertValidDouble(double d) throws IllegalArgumentException {
         if(Double.isInfinite(d)) {
-            throw new ArithmeticException("Overflow!");
+            throw new IllegalArgumentException("Overflow!");
         }
         if(Double.isNaN(d)) {
-            throw new ArithmeticException("NaN!");
+            throw new IllegalArgumentException("NaN!");
         }
     }
 

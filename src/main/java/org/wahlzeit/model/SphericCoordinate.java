@@ -50,10 +50,14 @@ public class SphericCoordinate extends AbstractCoordinate {
     }
 
     @Override
-    public CartesianCoordinate asCartesianCoordinate() {
+    public CartesianCoordinate asCartesianCoordinate() throws IllegalStateException, IllegalArgumentException {
+        assertClassInvariants();
         double x = radius * Math.sin(Math.toRadians(latitude)) * Math.cos(Math.toRadians(longitude));
         double y = radius * Math.sin(Math.toRadians(longitude)) * Math.sin(Math.toRadians(latitude));
         double z = radius * Math.cos(Math.toRadians(latitude));
+        assertValidDouble(x);
+        assertValidDouble(y);
+        assertValidDouble(z);
         return new CartesianCoordinate(x, y, z);
     }
 
@@ -67,7 +71,6 @@ public class SphericCoordinate extends AbstractCoordinate {
      * @methodtype get
      */
     public double getLatitude() {
-        assertClassInvariants();
         return latitude;
     }
 
@@ -75,7 +78,7 @@ public class SphericCoordinate extends AbstractCoordinate {
      * @param latitude the latitude to set
      * @methodtype set
      */
-    public void setLatitude(double latitude) {
+    public void setLatitude(double latitude) throws IllegalArgumentException, IllegalStateException{
         assertClassInvariants();
         assertValidLatitude(latitude);
         this.latitude = latitude;
@@ -85,8 +88,7 @@ public class SphericCoordinate extends AbstractCoordinate {
      * @return the longitude
      * @methodtype get
      */
-    public double getLongitude() {
-        assertClassInvariants();
+    public double getLongitude()  {
         return longitude;
     }
 
@@ -94,7 +96,7 @@ public class SphericCoordinate extends AbstractCoordinate {
      * @param longitude the longitude to set
      * @methodtype set
      */
-    public void setLongitude(double longitude) {
+    public void setLongitude(double longitude) throws IllegalArgumentException, IllegalStateException {
         assertClassInvariants();
         assertValidLongitude(longitude);
         this.longitude = longitude;
@@ -105,7 +107,6 @@ public class SphericCoordinate extends AbstractCoordinate {
      * @methodtype get
      */
     public double getRadius() {
-        assertClassInvariants();
         return radius;
     }
 
@@ -113,7 +114,7 @@ public class SphericCoordinate extends AbstractCoordinate {
      * @param radius the radius of the coordinate
      * @methodtype set
      */
-    public void setRadius(double radius) {
+    public void setRadius(double radius) throws IllegalArgumentException, IllegalStateException {
         assertClassInvariants();
         assertValidRadius(radius);
         this.radius = radius;
@@ -140,7 +141,7 @@ public class SphericCoordinate extends AbstractCoordinate {
      * @methodtype assertion
      */
     @Override
-    protected void assertClassInvariants() {
+    protected void assertClassInvariants() throws IllegalStateException{
         try {
             assertValidLongitude(this.longitude);
             assertValidLatitude(this.latitude);
@@ -153,7 +154,7 @@ public class SphericCoordinate extends AbstractCoordinate {
     /**
      * @methodtype assertion
      */
-    private void assertValidLongitude(double longitude) {
+    private void assertValidLongitude(double longitude) throws IllegalArgumentException {
         if (longitude < LONGITUDE_MIN || longitude > LONGITUDE_MAX) {
             throw new IllegalArgumentException("Longitude is not in the range of [-180, 180]!");
         }
@@ -162,7 +163,7 @@ public class SphericCoordinate extends AbstractCoordinate {
     /**
      * @methodtype assertion
      */
-    private void assertValidLatitude(double latitude) {
+    private void assertValidLatitude(double latitude) throws IllegalArgumentException {
         if (latitude < LATITUDE_MIN || latitude > LATITUDE_MAX) {
             throw new IllegalArgumentException("Latitude is not in the range of [-90, 90]!");
         }
@@ -171,7 +172,7 @@ public class SphericCoordinate extends AbstractCoordinate {
     /**
      * @methodtype assertion
      */
-    private void assertValidRadius(double radius) {
+    private void assertValidRadius(double radius) throws IllegalArgumentException {
         if (radius < 0d) {
             throw new IllegalArgumentException("Radius can not be a negative number!");
         }
