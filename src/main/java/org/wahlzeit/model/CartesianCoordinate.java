@@ -37,39 +37,56 @@ public class CartesianCoordinate extends AbstractCoordinate {
 
     @Override
     public CartesianCoordinate asCartesianCoordinate() {
+        assertClassInvariants();
         return this;
     }
 
     @Override
     public SphericCoordinate asSphericCoordinate() {
+        assertClassInvariants();
         double radius = Math.sqrt(x * x + y * y + z * z);
         double latitude = Math.toDegrees(Math.acos(z / radius));
         double longitude = Math.toDegrees(Math.atan2(y, x));
+        assertValidDouble(radius);
+        assertValidDouble(latitude);
+        assertValidDouble(longitude);
         return new SphericCoordinate(latitude, longitude, radius);
     }
 
     public double getX() {
+        assertClassInvariants();
         return x;
     }
 
     public void setX(double x) {
+        assertClassInvariants();
+        assertValidDouble(x);
         this.x = x;
+        assertClassInvariants();
     }
 
     public double getY() {
+        assertClassInvariants();
         return y;
     }
 
     public void setY(double y) {
+        assertClassInvariants();
+        assertValidDouble(y);
         this.y = y;
+        assertClassInvariants();
     }
 
     public double getZ() {
+        assertClassInvariants();
         return z;
     }
 
     public void setZ(double z) {
+        assertClassInvariants();
+        assertValidDouble(z);
         this.z = z;
+        assertClassInvariants();
     }
 
     @Override
@@ -84,5 +101,16 @@ public class CartesianCoordinate extends AbstractCoordinate {
     @Override
     public String toString() {
         return "(" + x + "," + y + "," + z + ")";
+    }
+
+    @Override
+    protected void assertClassInvariants() {
+        try {
+            assertValidDouble(x);
+            assertValidDouble(y);
+            assertValidDouble(z);
+        } catch(Exception e) {
+            throw new IllegalStateException();
+        }
     }
 }

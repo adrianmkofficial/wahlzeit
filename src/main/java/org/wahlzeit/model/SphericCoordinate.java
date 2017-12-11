@@ -40,18 +40,13 @@ public class SphericCoordinate extends AbstractCoordinate {
     }
 
     public SphericCoordinate(double latitude, double longitude, double radius) {
-        if (latitude < LATITUDE_MIN || latitude > LATITUDE_MAX) {
-            throw new IllegalArgumentException("Latitude is not in the range of [-90, 90]!");
-        }
-        if (longitude < LONGITUDE_MIN || longitude > LONGITUDE_MAX) {
-            throw new IllegalArgumentException("Longitude is not in the range of [-180, 180]!");
-        }
-        if (radius < 0d) {
-            throw new IllegalArgumentException("Radius can not be a negative number!");
-        }
+        assertValidLatitude(latitude);
+        assertValidLongitude(longitude);
+        assertValidRadius(radius);
         this.latitude = latitude;
         this.longitude = longitude;
         this.radius = radius;
+        assertClassInvariants();
     }
 
     @Override
@@ -69,54 +64,61 @@ public class SphericCoordinate extends AbstractCoordinate {
 
     /**
      * @return the latitude
+     * @methodtype get
      */
     public double getLatitude() {
+        assertClassInvariants();
         return latitude;
     }
 
     /**
      * @param latitude the latitude to set
+     * @methodtype set
      */
     public void setLatitude(double latitude) {
-        if (latitude < LATITUDE_MIN || latitude > LATITUDE_MAX) {
-            throw new IllegalArgumentException("Latitude is not in the range of [-90, 90]!");
-        }
+        assertClassInvariants();
+        assertValidLatitude(latitude);
         this.latitude = latitude;
     }
 
     /**
      * @return the longitude
+     * @methodtype get
      */
     public double getLongitude() {
+        assertClassInvariants();
         return longitude;
     }
 
     /**
      * @param longitude the longitude to set
+     * @methodtype set
      */
     public void setLongitude(double longitude) {
-        if (longitude < LONGITUDE_MIN || longitude > LONGITUDE_MAX) {
-            throw new IllegalArgumentException("Longitude is not in the range of [-180, 180]!");
-        }
+        assertClassInvariants();
+        assertValidLongitude(longitude);
         this.longitude = longitude;
     }
 
     /**
      * @return the radius
+     * @methodtype get
      */
     public double getRadius() {
+        assertClassInvariants();
         return radius;
     }
 
     /**
      * @param radius the radius of the coordinate
+     * @methodtype set
      */
     public void setRadius(double radius) {
-        if (radius < 0d) {
-            throw new IllegalArgumentException("Radius can not be a negative number!");
-        }
+        assertClassInvariants();
+        assertValidRadius(radius);
         this.radius = radius;
     }
+
     @Override
     public int hashCode() {
         int hash = 2003;
@@ -134,4 +136,44 @@ public class SphericCoordinate extends AbstractCoordinate {
         return "(" + latitude + ", " + longitude + ")";
     }
 
+    /**
+     * @methodtype assertion
+     */
+    @Override
+    protected void assertClassInvariants() {
+        try {
+            assertValidLongitude(this.longitude);
+            assertValidLatitude(this.latitude);
+            assertValidRadius(this.radius);
+        } catch(IllegalArgumentException e) {
+            throw new IllegalStateException();
+        }
+    }
+
+    /**
+     * @methodtype assertion
+     */
+    private void assertValidLongitude(double longitude) {
+        if (longitude < LONGITUDE_MIN || longitude > LONGITUDE_MAX) {
+            throw new IllegalArgumentException("Longitude is not in the range of [-180, 180]!");
+        }
+    }
+
+    /**
+     * @methodtype assertion
+     */
+    private void assertValidLatitude(double latitude) {
+        if (latitude < LATITUDE_MIN || latitude > LATITUDE_MAX) {
+            throw new IllegalArgumentException("Latitude is not in the range of [-90, 90]!");
+        }
+    }
+
+    /**
+     * @methodtype assertion
+     */
+    private void assertValidRadius(double radius) {
+        if (radius < 0d) {
+            throw new IllegalArgumentException("Radius can not be a negative number!");
+        }
+    }
 }

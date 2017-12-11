@@ -24,7 +24,7 @@ public abstract class AbstractCoordinate implements Coordinate {
 
     // Delta is a constant used in floating point operations.
     public static final double DELTA = 0.000001;
-    
+
     /**
      * @return new instance of {@link CartesianCoordinate} with attributes of this instance
      * @methodtype conversion
@@ -45,17 +45,15 @@ public abstract class AbstractCoordinate implements Coordinate {
      */
     @Override
     public double getCartesianDistance(Coordinate c) {
+        assertClassInvariants();
+        assertNotNull(c);
         CartesianCoordinate this_coord = this.asCartesianCoordinate();
         CartesianCoordinate other_coord = c.asCartesianCoordinate();
-        if (c == null) {
-            throw new IllegalArgumentException("Coordinate can not be null.");
-        }
-        double result = Math.sqrt(Math.pow(this_coord.getX() - other_coord.getX() , 2) + Math.pow(this_coord.getY() - other_coord.getY(), 2) + Math.pow(this_coord.getZ() - other_coord.getZ(), 2));
-        // check for overflows of result to infinity
-        if (Double.isInfinite(result)){
-            throw new ArithmeticException("Overflow");
-        }
-        return result;
+        this_coord.assertClassInvariants();
+        other_coord.assertClassInvariants();
+        double distance = Math.sqrt(Math.pow(this_coord.getX() - other_coord.getX() , 2) + Math.pow(this_coord.getY() - other_coord.getY(), 2) + Math.pow(this_coord.getZ() - other_coord.getZ(), 2));
+        assertValidDouble(distance);
+        return distance;
     }
 
     /**
@@ -64,8 +62,12 @@ public abstract class AbstractCoordinate implements Coordinate {
      */
     @Override
     public double getSphericDistance(Coordinate c) {
+        assertClassInvariants();
+        assertNotNull(c);
         SphericCoordinate this_coord = this.asSphericCoordinate();
         SphericCoordinate other_coord = c.asSphericCoordinate();
+        this_coord.assertClassInvariants();
+        other_coord.assertClassInvariants();
         double latDistance = Math.toRadians(other_coord.getLatitude() - this_coord.getLatitude());
         double lonDistance = Math.toRadians(other_coord.getLongitude() - this_coord.getLongitude());
         double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
@@ -73,6 +75,7 @@ public abstract class AbstractCoordinate implements Coordinate {
                 * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
         double tmp = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         double distance = this_coord.getRadius() * tmp * 1000; // convert to meters
+        assertValidDouble(distance);
         return distance;
     }
 
@@ -85,6 +88,8 @@ public abstract class AbstractCoordinate implements Coordinate {
      */
     @Override
     public double getDistance(Coordinate c) {
+        assertClassInvariants();
+        assertNotNull(c);
         // always return cartesian distance to have method work consistently
         CartesianCoordinate this_coord = this.asCartesianCoordinate();
         CartesianCoordinate other_coord = ((AbstractCoordinate) c).asCartesianCoordinate();
@@ -123,4 +128,30 @@ public abstract class AbstractCoordinate implements Coordinate {
         Coordinate c = (Coordinate) obj;
         return this.isEqual(c);
     }
+
+    /**
+     * @methodtype assertion
+     */
+    protected void assertNotNull(Object o) {
+        if(o == null) {
+            throw new IllegalArgumentException("Illegal null object!");
+        }
+    }
+
+    /**
+     * @methodtype assertion
+     */
+    protected void assertValidDouble(double d) {
+        if(Double.isInfinite(d)) {
+            throw new ArithmeticException("Overflow!");
+        }
+        if(Double.isNaN(d)) {
+            throw new ArithmeticException("NaN!");
+        }
+    }
+
+    /**
+     * @methodtype assertion
+     */
+    protected abstract void assertClassInvariants();
 }
