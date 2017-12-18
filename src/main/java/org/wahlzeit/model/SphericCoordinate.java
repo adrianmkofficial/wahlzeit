@@ -20,6 +20,9 @@
 
 package org.wahlzeit.model;
 
+import java.util.HashMap;
+
+
 /**
  * A class representing a Coordinate in the Spheric system.
  */
@@ -31,15 +34,17 @@ public class SphericCoordinate extends AbstractCoordinate {
     private static final double LATITUDE_MAX = 90;
     private static final double EARTH_RADIUS_KM = 6371;
 
-    private double latitude;
-    private double longitude;
-    private double radius;
+    private final double latitude;
+    private final double longitude;
+    private final double radius;
 
-    public SphericCoordinate(double latitude, double longitude) {
+    private static HashMap<Integer, SphericCoordinate> sphericCoordinateHashMap = new HashMap<Integer, SphericCoordinate>();
+
+    private SphericCoordinate(double latitude, double longitude) {
         this(latitude, longitude, EARTH_RADIUS_KM);
     }
 
-    public SphericCoordinate(double latitude, double longitude, double radius) {
+    private SphericCoordinate(double latitude, double longitude, double radius) {
         assertValidLatitude(latitude);
         assertValidLongitude(longitude);
         assertValidRadius(radius);
@@ -47,6 +52,23 @@ public class SphericCoordinate extends AbstractCoordinate {
         this.longitude = longitude;
         this.radius = radius;
         assertClassInvariants();
+    }
+
+    public static SphericCoordinate getCoordinate(double latitude, double longitude) {
+        return getCoordinate(latitude, longitude, EARTH_RADIUS_KM);
+    }
+
+    public static SphericCoordinate getCoordinate(double latitude, double longitude, double radius) {
+        final int hash = createHashCode(latitude, longitude, radius);
+        if (!sphericCoordinateHashMap.containsKey(hash)) {
+            SphericCoordinate coord = new SphericCoordinate(latitude, longitude, radius);
+            sphericCoordinateHashMap.put(hash, coord);
+            return coord;
+        }
+        else
+        {
+            return sphericCoordinateHashMap.get(hash);
+        }
     }
 
     @Override
@@ -58,12 +80,12 @@ public class SphericCoordinate extends AbstractCoordinate {
         assertValidDouble(x);
         assertValidDouble(y);
         assertValidDouble(z);
-        return new CartesianCoordinate(x, y, z);
+        return CartesianCoordinate.getCoordinate(x, y, z);
     }
 
     @Override
     public SphericCoordinate asSphericCoordinate() {
-        return this;
+        return new SphericCoordinate(this.latitude, this.longitude, this.radius);
     }
 
     /**
@@ -78,10 +100,10 @@ public class SphericCoordinate extends AbstractCoordinate {
      * @param latitude the latitude to set
      * @methodtype set
      */
-    public void setLatitude(double latitude) throws IllegalArgumentException, IllegalStateException{
+    public SphericCoordinate setLatitude(double latitude) throws IllegalArgumentException, IllegalStateException{
         assertClassInvariants();
         assertValidLatitude(latitude);
-        this.latitude = latitude;
+        return new SphericCoordinate(latitude, this.longitude, this.radius);
     }
 
     /**
@@ -96,10 +118,10 @@ public class SphericCoordinate extends AbstractCoordinate {
      * @param longitude the longitude to set
      * @methodtype set
      */
-    public void setLongitude(double longitude) throws IllegalArgumentException, IllegalStateException {
+    public SphericCoordinate setLongitude(double longitude) throws IllegalArgumentException, IllegalStateException {
         assertClassInvariants();
         assertValidLongitude(longitude);
-        this.longitude = longitude;
+        return new SphericCoordinate(this.latitude, longitude, this.radius);
     }
 
     /**
@@ -114,14 +136,19 @@ public class SphericCoordinate extends AbstractCoordinate {
      * @param radius the radius of the coordinate
      * @methodtype set
      */
-    public void setRadius(double radius) throws IllegalArgumentException, IllegalStateException {
+    public SphericCoordinate setRadius(double radius) throws IllegalArgumentException, IllegalStateException {
         assertClassInvariants();
         assertValidRadius(radius);
-        this.radius = radius;
+        return new SphericCoordinate(this.latitude, this.longitude, radius);
     }
 
     @Override
     public int hashCode() {
+        return createHashCode(this.latitude, this.longitude, this.radius);
+
+    }
+
+    private static int createHashCode(double latitude, double longitude, double radius) {
         int hash = 2003;
         hash = 37 * hash + (int) (Double.doubleToLongBits(latitude)
                 ^ (Double.doubleToLongBits(latitude) >>> 32));
@@ -132,7 +159,7 @@ public class SphericCoordinate extends AbstractCoordinate {
         return hash;
     }
 
-    @Override
+        @Override
     public String toString() {
         return "(" + latitude + ", " + longitude + ")";
     }
@@ -177,4 +204,6 @@ public class SphericCoordinate extends AbstractCoordinate {
             throw new IllegalArgumentException("Radius can not be a negative number!");
         }
     }
+
+
 }

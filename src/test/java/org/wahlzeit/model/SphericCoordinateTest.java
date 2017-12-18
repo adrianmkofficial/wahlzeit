@@ -39,10 +39,10 @@ public class SphericCoordinateTest {
 
     @Before
     public void setUp() {
-        nbg_lorenzkirche = new SphericCoordinate(49.450893,11.078049);
-        fra_airport = new SphericCoordinate(50.0379, 8.5622);
-        lax_airport = new SphericCoordinate(33.9416, -118.4085);
-        john_o_groats = new SphericCoordinate(58.643889, -3.070000);
+        nbg_lorenzkirche = SphericCoordinate.getCoordinate(49.450893,11.078049);
+        fra_airport = SphericCoordinate.getCoordinate(50.0379, 8.5622);
+        lax_airport = SphericCoordinate.getCoordinate(33.9416, -118.4085);
+        john_o_groats = SphericCoordinate.getCoordinate(58.643889, -3.070000);
 
     }
 
@@ -86,19 +86,19 @@ public class SphericCoordinateTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testSetLatitude() {
-        SphericCoordinate c_spheric = new SphericCoordinate(1, 1);
+        SphericCoordinate c_spheric = SphericCoordinate.getCoordinate(1, 1);
         c_spheric.setLatitude(91);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testSetLongitude() {
-        SphericCoordinate c_spheric = new SphericCoordinate(1, 1);
+        SphericCoordinate c_spheric = SphericCoordinate.getCoordinate(1, 1);
         c_spheric.setLongitude(181);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testSetRadius() {
-        SphericCoordinate c_spheric = new SphericCoordinate(1, 1);
+        SphericCoordinate c_spheric = SphericCoordinate.getCoordinate(1, 1);
         c_spheric.setRadius(-1);
     }
 

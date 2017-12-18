@@ -45,13 +45,13 @@ public class LocationTest {
         x = 1.25;
         y = 3.75;
         z = 8.0;
-        l_parameterized = new Location(new CartesianCoordinate(x,y,z));
+        l_parameterized = new Location(CartesianCoordinate.getCoordinate(x,y,z));
     }
 
     @Test
     public void testConstructor() {
-        assertEquals(new CartesianCoordinate(x,y,z), l_parameterized.getCoordinate());
-        assertNotEquals(new CartesianCoordinate(0,0,0), l_parameterized.getCoordinate());
+        assertEquals(CartesianCoordinate.getCoordinate(x,y,z), l_parameterized.getCoordinate());
+        assertNotEquals(CartesianCoordinate.getCoordinate(0,0,0), l_parameterized.getCoordinate());
 
     }
 
@@ -62,8 +62,8 @@ public class LocationTest {
 
     @Test
     public void testSetAndGet() {
-        l_parameterized.setCoordinate(new CartesianCoordinate(x,y,z));
-        assertEquals(new CartesianCoordinate(x,y,z), l_parameterized.getCoordinate());
+        l_parameterized.setCoordinate(CartesianCoordinate.getCoordinate(x,y,z));
+        assertEquals(CartesianCoordinate.getCoordinate(x,y,z), l_parameterized.getCoordinate());
     }
 
     @Test(expected = NullPointerException.class)

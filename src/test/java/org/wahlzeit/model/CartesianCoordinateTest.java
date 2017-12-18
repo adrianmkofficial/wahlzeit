@@ -46,9 +46,9 @@ public class CartesianCoordinateTest {
         x = 1.25;
         y = 3.75;
         z = 8.0;
-        c_default = new CartesianCoordinate(0,0,0);
-        c_parametrized = new CartesianCoordinate(x,y,z);
-        c_negative = new CartesianCoordinate(-x,-y,-z);
+        c_default = CartesianCoordinate.getCoordinate(0,0,0);
+        c_parametrized = CartesianCoordinate.getCoordinate(x,y,z);
+        c_negative = CartesianCoordinate.getCoordinate(-x,-y,-z);
 
     }
 
@@ -126,7 +126,7 @@ public class CartesianCoordinateTest {
 
     @Test
     public void testConversion() {
-        CartesianCoordinate c = new CartesianCoordinate(5433, -291.4, 3315);
+        CartesianCoordinate c = CartesianCoordinate.getCoordinate(5433, -291.4, 3315);
         assertEquals(c, c.asSphericCoordinate().asCartesianCoordinate());
         assertTrue(c.equals(c.asSphericCoordinate().asCartesianCoordinate()));
         assertEquals(c.getDistance(c.asSphericCoordinate().asCartesianCoordinate()),0,0.01);

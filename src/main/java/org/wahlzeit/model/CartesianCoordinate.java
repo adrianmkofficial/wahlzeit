@@ -20,25 +20,42 @@
 
 package org.wahlzeit.model;
 
+import java.util.HashMap;
+
 /**
  * A class representing a Coordinate in the Cartesian system.
  */
 public class CartesianCoordinate extends AbstractCoordinate {
 
-    private double x;
-    private double y;
-    private double z;
+    private final double x;
+    private final double y;
+    private final double z;
 
-    public CartesianCoordinate(double x, double y, double z) {
+    private static HashMap<Integer, CartesianCoordinate> cartesianCoordinateHashMap = new HashMap<>();
+
+    private CartesianCoordinate(double x, double y, double z) {
         this.x = x;
         this.y = y;
         this.z = z;
     }
 
+    public static CartesianCoordinate getCoordinate(double x, double y, double z) {
+        final int hash = createHashCode(x, y, z);
+        if (!cartesianCoordinateHashMap.containsKey(hash)) {
+            CartesianCoordinate coord = new CartesianCoordinate(x, y, z);
+            cartesianCoordinateHashMap.put(hash, coord);
+            return coord;
+        }
+        else
+        {
+            return cartesianCoordinateHashMap.get(hash);
+        }
+    }
+
     @Override
     public CartesianCoordinate asCartesianCoordinate() throws IllegalStateException {
         assertClassInvariants();
-        return this;
+        return new CartesianCoordinate(this.x, this.y, this.z);
     }
 
     @Override
@@ -50,49 +67,50 @@ public class CartesianCoordinate extends AbstractCoordinate {
         assertValidDouble(radius);
         assertValidDouble(latitude);
         assertValidDouble(longitude);
-        return new SphericCoordinate(latitude, longitude, radius);
+        return SphericCoordinate.getCoordinate(latitude, longitude, radius);
     }
 
     public double getX() {
         return x;
     }
 
-    public void setX(double x) throws IllegalArgumentException, IllegalStateException {
+    public CartesianCoordinate setX(double x) throws IllegalArgumentException, IllegalStateException {
         assertClassInvariants();
         assertValidDouble(x);
-        this.x = x;
-        assertClassInvariants();
+        return new CartesianCoordinate(x,this.y, this.z);
     }
 
     public double getY() {
         return y;
     }
 
-    public void setY(double y) throws IllegalArgumentException, IllegalStateException {
+    public CartesianCoordinate setY(double y) throws IllegalArgumentException, IllegalStateException {
         assertClassInvariants();
         assertValidDouble(y);
-        this.y = y;
-        assertClassInvariants();
+        return new CartesianCoordinate(this.x,y, this.z);
     }
 
     public double getZ() {
         return z;
     }
 
-    public void setZ(double z) throws IllegalArgumentException, IllegalStateException {
+    public CartesianCoordinate setZ(double z) throws IllegalArgumentException, IllegalStateException {
         assertClassInvariants();
         assertValidDouble(z);
-        this.z = z;
-        assertClassInvariants();
+        return new CartesianCoordinate(this.x,this.y, z);
     }
 
-    @Override
-    public int hashCode() {
+    public static int createHashCode(double x, double y, double z) {
         int hash = 7;
         hash = 37 * hash + (int) (Double.doubleToLongBits(x) ^ (Double.doubleToLongBits(x) >>> 32));
         hash = 37 * hash + (int) (Double.doubleToLongBits(y) ^ (Double.doubleToLongBits(y) >>> 32));
         hash = 37 * hash + (int) (Double.doubleToLongBits(z) ^ (Double.doubleToLongBits(z) >>> 32));
         return hash;
+    }
+
+    @Override
+    public int hashCode() {
+        return createHashCode(this.x, this.y, this.z);
     }
 
     @Override
