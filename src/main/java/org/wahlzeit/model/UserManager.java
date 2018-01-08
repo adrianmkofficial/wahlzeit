@@ -37,6 +37,12 @@ import java.util.logging.Logger;
 /**
  * The UserManager provides access to and manages Users (including Moderators and Administrators).
  */
+@PatternInstance(
+		patternName = "Singleton",
+		participants = {
+				"UserManager"
+		}
+)
 public class UserManager extends ClientManager {
 
 	private static final Logger log = Logger.getLogger(UserManager.class.getName());

@@ -76,9 +76,9 @@ public class CartesianCoordinateTest {
     @Test
     public void testSetAndGet() {
         // switch things up for the sake of it
-        c_parametrized.setX(z*2);
-        c_parametrized.setY(x*2);
-        c_parametrized.setZ(y*2);
+        c_parametrized = c_parametrized.setX(z*2);
+        c_parametrized = c_parametrized.setY(x*2);
+        c_parametrized = c_parametrized.setZ(y*2);
         assertEquals(z*2, c_parametrized.getX(), 0.0001);
         assertEquals(x*2, c_parametrized.getY(), 0.0001);
         assertEquals(y*2, c_parametrized.getZ(), 0.0001);

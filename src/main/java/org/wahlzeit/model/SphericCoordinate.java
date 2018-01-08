@@ -26,6 +26,12 @@ import java.util.HashMap;
 /**
  * A class representing a Coordinate in the Spheric system.
  */
+@PatternInstance(
+        patternName = "Value Object",
+        participants = {
+                "SphericCoordinate"
+        }
+)
 public class SphericCoordinate extends AbstractCoordinate {
 
     private static final double LONGITUDE_MIN = -180;

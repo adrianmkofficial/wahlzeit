@@ -24,6 +24,12 @@ import java.util.logging.Logger;
 
 import com.googlecode.objectify.annotation.Subclass;
 
+@PatternInstance(
+		patternName = "Singleton",
+		participants = {
+				"PhotoManager", "SodaPhotoManager"
+		}
+)
 @Subclass
 public class SodaPhotoManager extends PhotoManager {
 

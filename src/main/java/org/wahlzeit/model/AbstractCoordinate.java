@@ -20,6 +20,12 @@
 
 package org.wahlzeit.model;
 
+@PatternInstance(
+        patternName = "Value Object",
+        participants = {
+                "AbstractCoordinate"
+        }
+)
 public abstract class AbstractCoordinate implements Coordinate {
 
     // Delta is a constant used in floating point operations.

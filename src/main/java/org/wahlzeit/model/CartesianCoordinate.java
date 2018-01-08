@@ -25,6 +25,12 @@ import java.util.HashMap;
 /**
  * A class representing a Coordinate in the Cartesian system.
  */
+@PatternInstance(
+        patternName = "Value Object",
+        participants = {
+                "CartesianCoordinate"
+        }
+)
 public class CartesianCoordinate extends AbstractCoordinate {
 
     private final double x;

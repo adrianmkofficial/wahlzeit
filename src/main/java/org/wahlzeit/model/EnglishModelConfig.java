@@ -29,6 +29,10 @@ import java.text.SimpleDateFormat;
 /**
  * A model configuration for the English language.
  */
+@PatternInstance(
+		patternName = "Strategy",
+		participants = {"EnglishModelConfig"}
+)
 public class EnglishModelConfig extends AbstractModelConfig {
 
 	/**
