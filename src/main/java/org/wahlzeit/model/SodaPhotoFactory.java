@@ -33,9 +33,14 @@ public class SodaPhotoFactory extends PhotoFactory {
 	
 	private static SodaPhotoFactory instance = null;
 	
-	public SodaPhotoFactory() {
+	protected SodaPhotoFactory() {
 		
 	}
+
+	public static void initialize () {
+		getInstance();
+	}
+
 	/**
 	 * Public singleton access method.
 	 * @return the instance of the SodaPhotoFactory
@@ -69,7 +74,7 @@ public class SodaPhotoFactory extends PhotoFactory {
 	 * @methodtype factory
 	 */
 	@Override
-	public Photo createPhoto() {
+	public SodaPhoto createPhoto() {
 		return new SodaPhoto();
 	}
 
@@ -79,7 +84,7 @@ public class SodaPhotoFactory extends PhotoFactory {
 	 * @methodtype factory
 	 */
 	@Override
-	public Photo createPhoto(PhotoId id) {
+	public SodaPhoto createPhoto(PhotoId id) {
 		return new SodaPhoto(id);
 	}
 

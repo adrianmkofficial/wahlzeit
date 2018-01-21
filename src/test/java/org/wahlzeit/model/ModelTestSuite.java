@@ -20,7 +20,11 @@ import org.wahlzeit.model.persistence.PersistenceTestSuite;
         TagsTest.class,
         UserStatusTest.class,
         ValueTest.class,
-        SodaPhotoTest.class
+        SodaTest.class,
+        SodaTypeTest.class,
+        SodaPhotoManagerTest.class,
+        SodaManagerTest.class
+
 })
 public class ModelTestSuite {
 }

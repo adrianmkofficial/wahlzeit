@@ -1,3 +1,23 @@
+/*
+ * Copyright (c) 2017 Adrian MK Fürst
+ *
+ * This file is part of the Wahlzeit photo rating application.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public
+ * License along with this program. If not, see
+ * <http://www.gnu.org/licenses/>.
+ */
+
 package org.wahlzeit.model;
 
 import org.wahlzeit.services.DataObject;
@@ -10,25 +30,11 @@ import java.util.Set;
 
 public class SodaType extends DataObject {
 
-    protected enum Category {
-        COLA,
-        PEPPER,
-        CITRUS_SODA,
-        MINERAL_WATER,
-        LOW_CALORIE,
-        ALCOHOLIC_MIX,
-        MIXED,
-        OTHER
-    }
-
     // Name of a soda
     protected String name;
 
     // Name of the manufacturer of a soda
     protected String manufacturer;
-
-    // Core properties of a soda
-    protected Set<Category> categories;
 
     /**
      * Country of origin of a soda.
@@ -38,64 +44,143 @@ public class SodaType extends DataObject {
     protected String country;
 
     protected SodaType superType = null;
-    protected Set<SodaType> subTypes = new HashSet<>();
+    protected Set<SodaType> subTypes = new HashSet<SodaType>();
 
-    public SodaType getSuperType() {
+    /**
+     * Constructor of the SodaType class.
+     *
+     * @methodtype constructor
+     */
+    public SodaType() {}
+
+    /**
+     * Constructor of the SodaType class.
+     *
+     * @methodtype constructor
+     * @param name
+     * @param manufacturer
+     * @param country
+     */
+    public SodaType(String name, String manufacturer, String country) {
+        this.superType = null;
+        setName(name);
+        setManufacturer(manufacturer);
+        setCountry(country);
+    }
+    /**
+     * Constructor of the SodaType class.
+     *
+     * @methodtype constructor
+     * @param superType
+     * @param name
+     * @param manufacturer
+     * @param country
+     */
+    public SodaType(SodaType superType, String name, String manufacturer, String country) {
+        if(superType != null) {
+            this.superType = superType;
+        }
+        setName(name);
+        setManufacturer(manufacturer);
+        setCountry(country);
+    }
+
+    /**
+     * Gets the supertype of a soda
+     *
+     * @methodtype get
+     * @return superType the superType of a soda
+     */
+    public SodaType getSuperType(){
         return superType;
     }
 
-    public Iterator<SodaType> getSubTypeIterator() {
+    /**
+     * Sets the supertype of a SodaType
+     *
+     * @methodtype set
+     */
+    public void setSuperType(SodaType sodaType) {
+        if(sodaType == null) {
+            throw new IllegalArgumentException( "Super-type can not be null!");
+        }
+        this.superType = sodaType;
+    }
+
+    /**
+     * Gets an iterator for subtypes of a SodaType
+     *
+     * @methodtype get
+     * @return subTypes.iterator() the subtypes iterator of a SodaType
+     */
+    public Iterator <SodaType> getSubTypeIterator(){
         return subTypes.iterator();
     }
 
+
+
+
     public void addSubType(SodaType st) {
-        if(name == null) {
+        if(st == null) {
             throw new IllegalArgumentException( "Sub-type can not be null!");
         }
         st.setSuperType(this);
         subTypes.add(st);
     }
 
-    public void setSuperType(SodaType sodaType) {
-        if(sodaType == null) {
-            throw new IllegalArgumentException( "Super-type can not be null!");
-        }
-        this.superType = sodaType;
-        superType.subTypes.add(sodaType);
-    }
-
-    public boolean hasInstance(Soda s) {
+    /**
+     * @methodtype boolean query
+     * @return true if soda has a type instance
+     */
+    public boolean hasInstance(Soda s)
+    {
         if(s == null) {
             throw new IllegalArgumentException( "Soda can not be null!");
         }
-        if (s.getSodaType() == this) {
+        if(s.getSodaType() == this)
             return true;
+
+        return isSubtype(s.getSodaType());
+    }
+
+    /**
+     * @methodtype boolean query
+     * @return true if this is a subtype
+     */
+    public boolean isSubtype(){
+        return (superType != null);
+    }
+
+    /**
+     * @methodtype boolean query
+     * @param st
+     * @return true if this is a subtype
+     */
+    public boolean isSubtype(SodaType st)
+    {
+        if(st == null) {
+            throw new IllegalArgumentException( "SodaType can not be null!");
         }
-        for (SodaType type : subTypes) {
-            if (type.hasInstance(s)) {
+        this.getSubTypeIterator();
+        Iterator itr = this.getSubTypeIterator();
+
+        while(itr.hasNext()) {
+            SodaType type = (SodaType) itr.next();
+            if (type == st) {
                 return true;
             }
         }
         return false;
     }
 
-
-    public Soda createSoda(String variation, Double serving_size_ml) {
+    /**
+     * @methodtype factory method
+     * @param variation
+     * @param serving_size_ml
+     * @return Soda
+     */
+    public Soda createInstance(String variation, Double serving_size_ml) {
         return new Soda(variation, serving_size_ml, this);
-    }
-
-    public Soda createSoda(String name, String manufacturer, String country, String variation, Double serving_size_ml) {
-        this.setName(name);
-        this.setManufacturer(name);
-        this.setCountry(name);
-        return new Soda(variation, serving_size_ml, this);
-    }
-
-    public SodaType(String name, String manufacturer, String country, Set<Category> categories) {
-        setName(name);
-        setManufacturer(manufacturer);
-        setCountry(country);
-        setCategories(categories);
     }
 
     /**
@@ -191,38 +276,6 @@ public class SodaType extends DataObject {
         }
     }
 
-
-    /**
-     * @methodtype assertion
-     */
-    protected void assetCategories(Set<Category> categories) throws IllegalArgumentException
-    {
-        if (categories == null) {
-            throw new IllegalArgumentException("Categories can't be null!");
-        }
-    }
-
-    /**
-     * Gets the categories of a soda.
-     *
-     * @methodtype get
-     * @return categories categories of soda as set
-     */
-    public final Set<Category> getCategories() {
-        return categories;
-    }
-
-    /**
-     * Sets categories of a soda.
-     *
-     * @methodtype set
-     * @param categories categories to be associated with soda
-     */
-    public final void setCategories(Set<Category> categories) throws IllegalArgumentException {
-        this.categories = categories;
-    }
-
-
     /**
      * @methodtype assertion
      */
@@ -231,14 +284,63 @@ public class SodaType extends DataObject {
             assertName(name);
             assertManufacturer(manufacturer);
             assertCountry(country);
-            assetCategories(categories);
         } catch(IllegalArgumentException e) {
             throw new IllegalStateException();
         }
     }
 
+    /**
+     *
+     */
     @Override
     public int hashCode() {
-        return Objects.hash(this.getName(), this.getManufacturer(), this.getCountry());
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        result = prime * result + ((manufacturer == null) ? 0 : manufacturer.hashCode());
+        result = prime * result + ((country == null) ? 0 : country.hashCode());
+        result = prime * result + ((subTypes == null) ? 0 : subTypes.hashCode());
+        result = prime * result + ((superType == null) ? 0 : superType.hashCode());
+        return result;
+    }
+
+    /**
+     *
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        SodaType st = (SodaType) obj;
+        if (name == null) {
+            if (st.name != null)
+                return false;
+        } else if (!name.equals(st.name))
+            return false;
+        if (manufacturer == null) {
+            if (st.manufacturer != null)
+                return false;
+        } else if (!manufacturer.equals(st.manufacturer))
+            return false;
+        if (country == null) {
+            if (st.country != null)
+                return false;
+        } else if (!country.equals(st.country))
+            return false;
+        if (subTypes == null) {
+            if (st.subTypes != null)
+                return false;
+        } else if (!subTypes.equals(st.subTypes))
+            return false;
+        if (superType == null) {
+            if (st.superType != null)
+                return false;
+        } else if (!superType.equals(st.superType))
+            return false;
+        return true;
     }
 }

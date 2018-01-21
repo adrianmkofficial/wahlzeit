@@ -30,11 +30,15 @@ import com.googlecode.objectify.annotation.Subclass;
 				"PhotoManager", "SodaPhotoManager"
 		}
 )
-@Subclass
+
 public class SodaPhotoManager extends PhotoManager {
 
 	protected static final SodaPhotoManager instance = new SodaPhotoManager();
 	private static final Logger log = Logger.getLogger(SodaPhotoManager.class.getName());
+
+	public SodaPhotoManager() {
+		super ();
+	}
 
 	/**
 	 * Public singleton access method
@@ -42,7 +46,7 @@ public class SodaPhotoManager extends PhotoManager {
 	 * @methodtype getter
 	 */
 	public static final SodaPhotoManager getInstance() {
-		return instance;
+		return (SodaPhotoManager) instance;
 	}
 	
 }

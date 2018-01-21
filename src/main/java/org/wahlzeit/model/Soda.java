@@ -28,7 +28,7 @@ import org.wahlzeit.utils.CountryUtil;
 
 import java.util.Objects;
 
-@Subclass(index = true)
+@Entity
 public class Soda extends DataObject {
 
     // Serving size of soda in milliliters
@@ -37,7 +37,7 @@ public class Soda extends DataObject {
     // Name of the variation of a soda (e.g. Coke Cherry, Coke Regular)
     protected String variation;
 
-    //
+    // Type of Soda
     protected SodaType sodaType;
 
     // Private constructor to ensure every soda also has a type associated with it
@@ -45,7 +45,7 @@ public class Soda extends DataObject {
 
     /**
      * Constructor of the Soda class.
-     *
+     * @param variation
      * @param serving_size_ml
      * @param sodaType
      * @methodtype constructor
@@ -124,6 +124,7 @@ public class Soda extends DataObject {
      * @param variation the variation of soda
      */
     public void setVariation(String variation) {
+        assertVariation(variation);
         this.variation = variation;
     }
 
@@ -154,8 +155,46 @@ public class Soda extends DataObject {
         sodaType.assertClassInvariants();
     }
 
+    /**
+     *
+     */
     @Override
-	public int hashCode() {
-        return Objects.hash(this.sodaType.getName(), this.sodaType.getManufacturer(), this.sodaType.getCountry(), this.variation);
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((variation == null) ? 0 : variation.hashCode());
+        result = prime * result + Double.valueOf(serving_size_ml).hashCode(); ;
+        result = prime * result + ((sodaType == null) ? 0 : sodaType.hashCode());
+        return result;
+    }
+
+    /**
+     *
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Soda other = (Soda) obj;
+        if (variation == null) {
+            if (other.variation != null)
+                return false;
+        } else if (!variation.equals(other.variation))
+            return false;
+        if (serving_size_ml == null) {
+            if (serving_size_ml != null)
+                return false;
+        } else if (this.serving_size_ml != other.serving_size_ml)
+            return false;
+        if (sodaType == null) {
+            if (other.sodaType != null)
+                return false;
+        } else if (!sodaType.equals(other.sodaType))
+            return false;
+        return true;
     }
 }
