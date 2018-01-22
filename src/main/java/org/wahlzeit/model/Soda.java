@@ -92,7 +92,7 @@ public class Soda extends DataObject {
      * @methodtype get
      * @return serving_size_oz the serving size of soda in ounces as double
      */
-    public final Double serving_size_oz() {
+    public final Double getServing_size_oz() {
         return serving_size_ml * 0.033814;
     }
 
