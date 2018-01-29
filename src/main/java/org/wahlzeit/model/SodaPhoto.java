@@ -68,7 +68,7 @@ public class SodaPhoto extends Photo {
 	/**
 	 * @methodtype set
 	 */
-	public void setSoda(Soda Soda) {
+	public void setSoda(Soda soda) {
 		if (soda == null)
 		{
 			throw new IllegalArgumentException( "Soda can not be null!");

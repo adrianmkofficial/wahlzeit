@@ -100,11 +100,11 @@ public class SodaType extends DataObject {
      *
      * @methodtype set
      */
-    public void setSuperType(SodaType sodaType) {
-        if(sodaType == null) {
+    public void setSuperType(SodaType st) {
+        if(st == null) {
             throw new IllegalArgumentException( "Super-type can not be null!");
         }
-        this.superType = sodaType;
+        this.superType = st;
     }
 
     /**

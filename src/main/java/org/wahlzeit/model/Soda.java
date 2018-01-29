@@ -141,11 +141,11 @@ public class Soda extends DataObject {
      * Set the type of a soda.
      *
      * @methodtype set
-     * @param sodaType the type of soda
+     * @param st the type of soda
      */
-    public void setSodaType(SodaType sodaType) {
-        assertSodaType(sodaType);
-        this.sodaType = sodaType;
+    public void setSodaType(SodaType st) {
+        assertSodaType(st);
+        this.sodaType = st;
     }
 
     /**
